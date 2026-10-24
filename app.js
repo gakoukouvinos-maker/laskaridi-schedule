@@ -14,9 +14,9 @@
   const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character]));
   const normalize = (value) => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('el-GR');
   const programArtworks = [
-    {names: ['ναυτιλος', 'nautilos', 'naytilos', 'nautilus'], src: 'assets/nautilos.webp', alt: 'Το ναυάγιο και η πυξίδα του ΝΑΥΤΙΛΟΥ 21', position: 'center 76%'},
-    {names: ['στιγμα', 'πρωτευ', 'proteus', 'stigma'], src: 'assets/stigma.webp', alt: 'Ο θαλάσσιος χάρτης της Πελοποννήσου για το ΤΕΛΕΥΤΑΙΟ ΣΤΙΓΜΑ', position: 'center 42%'},
-    {names: ['biodive', 'bio dive', 'βιονταιβ'], src: 'assets/biodive.webp', alt: 'Η θαλάσσια χελώνα και οι μέδουσες του BioDive', position: 'center 52%'}
+    {names: ['ναυτιλος', 'nautilos', 'naytilos', 'nautilus'], src: 'assets/nautilos.webp?v=foundation1', alt: 'Το ναυάγιο και η πυξίδα του ΝΑΥΤΙΛΟΥ 21', position: 'center 76%'},
+    {names: ['στιγμα', 'πρωτευ', 'proteus', 'stigma'], src: 'assets/stigma.webp?v=foundation1', alt: 'Ο θαλάσσιος χάρτης της Πελοποννήσου για το ΤΕΛΕΥΤΑΙΟ ΣΤΙΓΜΑ', position: 'center 42%'},
+    {names: ['biodive', 'bio dive', 'βιονταιβ'], src: 'assets/biodive.webp?v=foundation1', alt: 'Η θαλάσσια χελώνα και οι μέδουσες του BioDive', position: 'center 52%'}
   ];
   const artworkFor = (event) => programArtworks.find((artwork) => artwork.names.some((name) => normalize(event.program).includes(name)));
   const statusLabels = {scheduled: 'Στο πρόγραμμα', changed: 'Τροποποιήθηκε', cancelled: 'Ακυρώθηκε'};
