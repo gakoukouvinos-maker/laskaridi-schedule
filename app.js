@@ -33,8 +33,7 @@
   }
   populateFilter('#presenter', events.flatMap((event) => event.presenters));
   populateFilter('#program', events.map((event) => event.program));
-  $('#coverage').textContent = data.coverageNote;
-  $('#updated').textContent = `Τελευταία καταχώριση: ${formatDate(data.updatedAt, {day: 'numeric', month: 'long', year: 'numeric'})}`;
+  $('#updated').textContent = `Ενημέρωση προγράμματος: ${formatDate(data.updatedAt, {day: 'numeric', month: 'long', year: 'numeric'})}`;
 
   if (next) {
     $('#next-event').innerHTML = `<p class="next-label"><span>ΕΠΟΜΕΝΗ ΔΡΑΣΗ</span><span aria-hidden="true">↗</span></p><div class="next-date"><span class="next-number">${next.date.slice(8)}</span><span class="next-date-text">${escape(upperFirst(formatDate(next.date, {weekday: 'long'})))}<br>${escape(formatDate(next.date, {month: 'long', year: 'numeric'}))}</span></div><h2>${escape(next.program)}</h2><p class="next-subtitle">${escape(next.subtitle)}</p><div class="next-meta"><span>◷ &nbsp;${escape(next.start)} – ${escape(next.end)}</span><span>⌖ &nbsp;${escape(next.building)}</span></div>`;
