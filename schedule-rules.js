@@ -1,6 +1,6 @@
 'use strict';
 window.ScheduleRules = (() => {
-  const presenters = ['Κωσταντίνος', 'Άννα'];
+  const presenters = ['Κωνσταντίνος', 'Άννα'];
   const pending = 'Εκκρεμεί ανάθεση';
   const programs = [
     {name: 'ΝΑΥΤΙΛΟΣ 21', names: ['ναυτιλος', 'nautilos', 'naytilos', 'nautilus'], src: 'assets/nautilos.webp?v=foundation1', alt: 'Το ναυάγιο και η πυξίδα του ΝΑΥΤΙΛΟΥ 21', position: 'center 76%'},
@@ -13,8 +13,8 @@ window.ScheduleRules = (() => {
   function assign(event) {
     const weekday = new Date(`${event.date}T12:00:00Z`).getUTCDay();
     let presenter = pending;
-    if (weekday === 1 || weekday === 2) presenter = presenters[0];
-    if (weekday === 3 || weekday === 4) presenter = presenters[1];
+    if (weekday === 1 || weekday === 3) presenter = presenters[0];
+    if (weekday === 2 || weekday === 4) presenter = presenters[1];
     // Friday is assigned only from the user's explicit instruction, never from the source email.
     if (weekday === 5 && presenters.includes(event.fridayPresenter)) presenter = event.fridayPresenter;
     return {...event, program: programFor(event.program)?.name || event.program, presenters: [presenter]};
