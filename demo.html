@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1537">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Το κοινό πρόγραμμα της ομάδας εκπαιδευτικών δράσεων στο Ίδρυμα Αικατερίνης Λασκαρίδη.">
+  <title>ΔΟΚΙΜΗ · Πρόγραμμα ομάδας</title>
+  <link rel="icon" href="icon.svg?v=foundation1" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=games3">
+  <script>window.SCHEDULE = {
+  "updatedAt": "2026-10-24",
+  "events": [
+    {
+      "id": "demo-nautilos",
+      "date": "2026-10-19",
+      "start": "09:00",
+      "end": "10:30",
+      "building": "Πραξιτέλους",
+      "program": "ΝΑΥΤΙΛΟΣ 21",
+      "subtitle": "Το ναυάγιο που δεν υπήρχε",
+      "school": "Δοκιμαστικό σχολείο Α",
+      "className": "Γ΄",
+      "students": 20,
+      "status": "scheduled",
+      "note": "Δοκιμαστική καταχώριση — δεν αποτελεί πραγματική ανάθεση."
+    },
+    {
+      "id": "demo-stigma",
+      "date": "2026-10-20",
+      "start": "11:30",
+      "end": "13:00",
+      "building": "Πραξιτέλους",
+      "program": "ΤΕΛΕΥΤΑΙΟ ΣΤΙΓΜΑ / ΠΡΩΤΕΥΣ",
+      "subtitle": "",
+      "school": "Δοκιμαστικό σχολείο Β",
+      "className": "Β΄",
+      "students": 24,
+      "status": "scheduled",
+      "note": "Δοκιμαστική καταχώριση — δεν αποτελεί πραγματική ανάθεση."
+    },
+    {
+      "id": "demo-biodive",
+      "date": "2026-10-21",
+      "start": "09:00",
+      "end": "10:30",
+      "building": "Πραξιτέλους",
+      "program": "BioDive",
+      "subtitle": "",
+      "school": "Δοκιμαστικό σχολείο Γ",
+      "className": "Α΄",
+      "students": 22,
+      "status": "scheduled",
+      "note": "Δοκιμαστική καταχώριση — δεν αποτελεί πραγματική ανάθεση."
+    }
+  ]
+};</script>
+  <script src="schedule-rules.js?v=weekdays4" defer></script>
+  <script src="app.js?v=games3" defer></script>
+<style>
+    .demo-banner{background:#fff0bd;border:1px solid #ceaa46;border-radius:12px;padding:18px 22px;margin-top:26px;color:#5e4915}
+    .demo-banner strong{font-size:12px;letter-spacing:1px}.demo-banner p{font-size:13px;margin:5px 0 9px}.demo-banner a{font-size:12px;font-weight:600}
+    .demo-page .intro{display:block;padding:27px 0}.demo-page #next-event{display:none}.demo-page .event-footer{display:none}
+    @media print{.demo-banner{display:block!important}}
+  </style></head>
+<body class="demo-page">
+  <a class="skip" href="#schedule">Στο πρόγραμμα</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Πρόγραμμα ομάδας, αρχική"><span>Πρόγραμμα ομάδας<small>ΕΚΠΑΙΔΕΥΤΙΚΕΣ ΔΡΑΣΕΙΣ</small></span></a>
+    <div class="top-actions"><span class="shared"><i></i> Κοινή προβολή</span><button class="icon-button" id="refresh" type="button" aria-label="Ανανέωση προγράμματος">↻</button></div>
+  </header>
+  <main>
+    <aside class="demo-banner"><strong>ΔΟΚΙΜΑΣΤΙΚΑ ΔΕΔΟΜΕΝΑ</strong><p>3 ενδεικτικές δράσεις για να δεις τις εικόνες και τα στατιστικά. Δεν είναι πραγματικές αναθέσεις.</p><a href="./">Στο πραγματικό πρόγραμμα ↗</a></aside>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">ΙΔΡΥΜΑ ΑΙΚΑΤΕΡΙΝΗΣ ΛΑΣΚΑΡΙΔΗ</p><h1 id="page-title">Δοκιμή προγράμματος</h1></div>
+      <aside class="next" id="next-event" aria-label="Επόμενη δράση"></aside>
+    </section>
+    <section class="workspace" id="schedule" aria-labelledby="schedule-title">
+      <div class="section-heading"><div><p class="eyebrow">ΟΡΓΑΝΩΣΗ ΟΜΑΔΑΣ</p><h2 id="schedule-title">Το πρόγραμμα</h2></div><div class="view-switch" aria-label="Τρόπος προβολής"><button type="button" data-view="list" aria-pressed="true">☷ <span>Λίστα</span></button><button type="button" data-view="calendar" aria-pressed="false">▦ <span>Ημερολόγιο</span></button></div></div>
+      <div class="filters">
+        <label class="search-label"><span>Αναζήτηση</span><input id="search" type="search" placeholder="Σχολείο, παιχνίδι ή εισηγητής…" autocomplete="off"></label>
+        <label><span>Εισηγητής</span><select id="presenter"><option value="">Όλοι οι εισηγητές</option></select></label>
+        <label><span>Παιχνίδι</span><select id="program"><option value="">Όλα τα παιχνίδια</option></select></label>
+        <label><span>Περίοδος</span><select id="period"><option value="upcoming">Προσεχείς δράσεις</option><option value="all" selected>Όλες οι δράσεις</option><option value="past">Προηγούμενες δράσεις</option></select></label>
+      </div>
+      <div class="results-bar"><p id="result-count" role="status" aria-live="polite"></p><button class="text-button" id="clear" type="button">Καθαρισμός φίλτρων</button></div>
+      <div id="list-view"></div>
+      <div id="calendar-view" hidden><div class="calendar-toolbar"><h3 id="month-label"></h3><div><button id="prev-month" class="month-button" type="button" aria-label="Προηγούμενος μήνας">←</button><button id="current-month" class="text-button" type="button">Τρέχων μήνας</button><button id="next-month" class="month-button" type="button" aria-label="Επόμενος μήνας">→</button></div></div><p class="calendar-hint">Επίλεξε μια δράση για να δεις τις λεπτομέρειες.</p><div class="calendar" id="calendar"></div><div id="day-details" aria-live="polite"></div></div>
+      <div class="bottom-tools"><p class="timezone">Όλες οι ώρες είναι Ελλάδας · Europe/Athens</p><button class="text-button" id="print" type="button">Εκτύπωση προγράμματος ↗</button></div>
+    </section>
+    <section class="statistics" aria-labelledby="statistics-title">
+      <div class="section-heading"><div><p class="eyebrow">ΑΠΟΛΟΓΙΣΜΟΣ</p><h2 id="statistics-title">Στατιστικά δράσεων</h2></div></div>
+      <p class="statistics-note">Μετρούν οι καταχωρισμένες δράσεις των οποίων έχει περάσει η ώρα λήξης, χωρίς τις ακυρωμένες. Τα στατιστικά αφορούν όλο το πρόγραμμα, ανεξάρτητα από τα παραπάνω φίλτρα.</p>
+      <div id="statistics-content"></div>
+    </section>
+  </main>
+  <footer><p>Πρόγραμμα ομάδας · Εκπαιδευτικές δράσεις</p><p id="updated"></p></footer>
+  <noscript><p class="noscript">Χρειάζεται ενεργοποιημένη JavaScript για την προβολή του προγράμματος.</p></noscript>
+</body>
+</html>
