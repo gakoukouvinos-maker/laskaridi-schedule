@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173c40">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Το κοινό πρόγραμμα της ομάδας εκπαιδευτικών δράσεων στο Ίδρυμα Αικατερίνης Λασκαρίδη.">
+  <title>Πρόγραμμα ομάδας · Εκπαιδευτικές δράσεις</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#schedule">Στο πρόγραμμα</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Πρόγραμμα ομάδας, αρχική"><span class="brand-icon" aria-hidden="true">π.</span><span>Πρόγραμμα ομάδας<small>ΕΚΠΑΙΔΕΥΤΙΚΕΣ ΔΡΑΣΕΙΣ</small></span></a>
+    <div class="top-actions"><span class="shared"><i></i> Κοινή προβολή</span><button class="icon-button" id="refresh" type="button" aria-label="Ανανέωση προγράμματος">↻</button></div>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">ΙΔΡΥΜΑ ΑΙΚΑΤΕΡΙΝΗΣ ΛΑΣΚΑΡΙΔΗ</p><h1 id="page-title">Οι δράσεις μας,<br><em>σε ένα σημείο.</em></h1><p class="lead">Πότε, πού και με ποια ομάδα.<br>Το πρόγραμμα των εκπαιδευτικών παιχνιδιών.</p></div>
+      <aside class="next" id="next-event" aria-label="Επόμενη δράση"></aside>
+    </section>
+    <section class="workspace" id="schedule" aria-labelledby="schedule-title">
+      <div class="section-heading"><div><p class="eyebrow">ΟΡΓΑΝΩΣΗ ΟΜΑΔΑΣ</p><h2 id="schedule-title">Το πρόγραμμα</h2></div><div class="view-switch" aria-label="Τρόπος προβολής"><button type="button" data-view="list" aria-pressed="true">☷ <span>Λίστα</span></button><button type="button" data-view="calendar" aria-pressed="false">▦ <span>Ημερολόγιο</span></button></div></div>
+      <div class="filters">
+        <label class="search-label"><span>Αναζήτηση</span><input id="search" type="search" placeholder="Σχολείο, παιχνίδι ή εισηγητής…" autocomplete="off"></label>
+        <label><span>Εισηγητής</span><select id="presenter"><option value="">Όλοι οι εισηγητές</option></select></label>
+        <label><span>Παιχνίδι</span><select id="program"><option value="">Όλα τα παιχνίδια</option></select></label>
+        <label><span>Περίοδος</span><select id="period"><option value="upcoming">Προσεχείς δράσεις</option><option value="all">Όλες οι δράσεις</option><option value="past">Προηγούμενες δράσεις</option></select></label>
+      </div>
+      <div class="results-bar"><p id="result-count" role="status" aria-live="polite"></p><button class="text-button" id="clear" type="button">Καθαρισμός φίλτρων</button></div>
+      <div id="list-view"></div>
+      <div id="calendar-view" hidden><div class="calendar-toolbar"><h3 id="month-label"></h3><div><button id="prev-month" class="month-button" type="button" aria-label="Προηγούμενος μήνας">←</button><button id="current-month" class="text-button" type="button">Τρέχων μήνας</button><button id="next-month" class="month-button" type="button" aria-label="Επόμενος μήνας">→</button></div></div><p class="calendar-hint">Επίλεξε μια δράση για να δεις τις λεπτομέρειες.</p><div class="calendar" id="calendar"></div><div id="day-details" aria-live="polite"></div></div>
+      <div class="bottom-tools"><p class="timezone">Όλες οι ώρες είναι Ελλάδας · Europe/Athens</p><button class="text-button" id="print" type="button">Εκτύπωση προγράμματος ↗</button></div>
+    </section>
+    <section class="update-note"><span class="note-icon" aria-hidden="true">↳</span><div><h2>Μία κοινή εικόνα για την ομάδα.</h2><p id="coverage"></p><p class="updated" id="updated"></p></div></section>
+  </main>
+  <footer><p>Πρόγραμμα ομάδας · Εκπαιδευτικές δράσεις</p><p>Εργαλείο συντονισμού των συνεργατών</p></footer>
+  <noscript><p class="noscript">Χρειάζεται ενεργοποιημένη JavaScript για την προβολή του προγράμματος.</p></noscript>
+</body>
+</html>
