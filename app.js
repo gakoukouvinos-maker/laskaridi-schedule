@@ -13,6 +13,12 @@
   const upperFirst = (text) => text.charAt(0).toLocaleUpperCase('el-GR') + text.slice(1);
   const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character]));
   const normalize = (value) => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('el-GR');
+  const programArtworks = [
+    {names: ['ναυτιλος', 'nautilos', 'naytilos', 'nautilus'], src: 'assets/nautilos.webp', alt: 'Το ναυάγιο και η πυξίδα του ΝΑΥΤΙΛΟΥ 21', position: 'center 76%'},
+    {names: ['στιγμα', 'πρωτευ', 'proteus', 'stigma'], src: 'assets/stigma.webp', alt: 'Ο θαλάσσιος χάρτης της Πελοποννήσου για το ΤΕΛΕΥΤΑΙΟ ΣΤΙΓΜΑ', position: 'center 42%'},
+    {names: ['biodive', 'bio dive', 'βιονταιβ'], src: 'assets/biodive.webp', alt: 'Η θαλάσσια χελώνα και οι μέδουσες του BioDive', position: 'center 52%'}
+  ];
+  const artworkFor = (event) => programArtworks.find((artwork) => artwork.names.some((name) => normalize(event.program).includes(name)));
   const statusLabels = {scheduled: 'Στο πρόγραμμα', changed: 'Τροποποιήθηκε', cancelled: 'Ακυρώθηκε'};
   const events = [...data.events].sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
   let view = 'list';
@@ -36,7 +42,9 @@
   $('#updated').textContent = `Ενημέρωση προγράμματος: ${formatDate(data.updatedAt, {day: 'numeric', month: 'long', year: 'numeric'})}`;
 
   if (next) {
-    $('#next-event').innerHTML = `<p class="next-label"><span>ΕΠΟΜΕΝΗ ΔΡΑΣΗ</span><span aria-hidden="true">↗</span></p><div class="next-date"><span class="next-number">${next.date.slice(8)}</span><span class="next-date-text">${escape(upperFirst(formatDate(next.date, {weekday: 'long'})))}<br>${escape(formatDate(next.date, {month: 'long', year: 'numeric'}))}</span></div><h2>${escape(next.program)}</h2><p class="next-subtitle">${escape(next.subtitle)}</p><div class="next-meta"><span>◷ &nbsp;${escape(next.start)} – ${escape(next.end)}</span><span>⌖ &nbsp;${escape(next.building)}</span></div>`;
+    const artwork = artworkFor(next);
+    $('#next-event').classList.toggle('has-artwork', Boolean(artwork));
+    $('#next-event').innerHTML = `${artwork ? `<img class="next-artwork" src="${artwork.src}" alt="" style="object-position:${artwork.position}" fetchpriority="high">` : ''}<div class="next-content"><p class="next-label"><span>ΕΠΟΜΕΝΗ ΔΡΑΣΗ</span><span aria-hidden="true">↗</span></p><div class="next-date"><span class="next-number">${next.date.slice(8)}</span><span class="next-date-text">${escape(upperFirst(formatDate(next.date, {weekday: 'long'})))}<br>${escape(formatDate(next.date, {month: 'long', year: 'numeric'}))}</span></div><h2>${escape(next.program)}</h2><p class="next-subtitle">${escape(next.subtitle)}</p><div class="next-meta"><span>◷ &nbsp;${escape(next.start)} – ${escape(next.end)}</span><span>⌖ &nbsp;${escape(next.building)}</span></div></div>`;
   } else {
     $('#next-event').innerHTML = '<p class="next-label">ΕΠΟΜΕΝΗ ΔΡΑΣΗ</p><h2>Αναμένουμε το επόμενο πρόγραμμα.</h2><p class="next-subtitle">Οι προηγούμενες δράσεις παραμένουν διαθέσιμες στην επιλογή «Όλες οι δράσεις».</p>';
   }
@@ -50,8 +58,10 @@
   }
 
   function eventCard(event) {
-    return `<article class="event-card" aria-label="${escape(event.program)} · ${escape(formatDate(event.date, {day: 'numeric', month: 'long', year: 'numeric'}))}">
+    const artwork = artworkFor(event);
+    return `<article class="event-card${artwork ? ' has-artwork' : ''}" aria-label="${escape(event.program)} · ${escape(formatDate(event.date, {day: 'numeric', month: 'long', year: 'numeric'}))}">
       <div class="event-date"><span class="event-weekday">${escape(upperFirst(formatDate(event.date, {weekday: 'long'})))}</span><span class="event-number">${event.date.slice(8)}</span><span class="event-month">${escape(formatDate(event.date, {month: 'short'}))} ${event.date.slice(0, 4)}</span></div>
+      ${artwork ? `<div class="event-artwork"><img src="${artwork.src}" alt="${escape(artwork.alt)}" style="object-position:${artwork.position}" loading="lazy" decoding="async"></div>` : ''}
       <div class="event-main"><div class="event-title-row"><div><h3>${escape(event.program)}</h3><p class="event-subtitle">${escape(event.subtitle)}</p></div><span class="status ${escape(event.status)}">${escape(statusLabels[event.status])}</span></div>
       <div class="event-meta"><span><span class="meta-symbol" aria-hidden="true">◷</span>${escape(event.start)} – ${escape(event.end)}</span><span><span class="meta-symbol" aria-hidden="true">⌖</span>Κτήριο ${escape(event.building)}</span></div>
       <dl class="event-details"><div><dt>ΕΙΣΗΓΗΤΕΣ</dt><dd>${event.presenters.map((presenter) => `<span>${escape(presenter)}</span>`).join('')}</dd></div><div><dt>ΣΧΟΛΕΙΟ</dt><dd>${escape(event.school)}</dd></div><div><dt>ΤΑΞΗ / ΜΑΘΗΤΕΣ</dt><dd>${escape(event.className)} · ${escape(event.students)} μαθητές</dd></div></dl>
