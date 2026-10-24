@@ -77,5 +77,8 @@
 .statistics-table thead{background:#f4efdf}.statistics-table th{font-weight:600}
 .statistics-table td,.statistics-table th:not(:first-child){text-align:right}
 .statistics-table tfoot{background:#faf7ef;font-weight:650}
+.statistics-program{display:flex;align-items:center;gap:12px}.statistics-program img{flex-shrink:0;object-fit:cover;border-radius:6px;background:var(--navy)}
+@media(max-width:600px){.statistics-program{gap:7px}.statistics-program img{width:30px;height:40px}}
+@media print{.statistics-program img{display:none}}
 @media(max-width:600px){.stat-cards{gap:8px}.stat-card{padding:15px 10px}.stat-card strong{font-size:28px}.stat-card span{font-size:10px}.statistics-table th,.statistics-table td{padding:12px 10px}.statistics-table{font-size:10px}.statistics-table caption{padding:12px 10px}.calendar-cancelled{font-size:7px;overflow-wrap:anywhere}.statistics{padding-top:25px}.statistics-note{font-size:11px}}
 @media print{.statistics{break-inside:avoid;padding-bottom:0}.stat-card{padding:12px}.stat-card:first-child{background:white;color:black}.stat-card strong,.stat-card:first-child strong{color:black}.statistics-table-wrap{overflow:visible}.event-card.is-cancelled{-webkit-print-color-adjust:exact;print-color-adjust:exact}}

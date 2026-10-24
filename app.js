@@ -14,12 +14,7 @@
   const upperFirst = (text) => text.charAt(0).toLocaleUpperCase('el-GR') + text.slice(1);
   const escape = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character]));
   const normalize = (value) => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('el-GR');
-  const programArtworks = [
-    {names: ['ναυτιλος', 'nautilos', 'naytilos', 'nautilus'], src: 'assets/nautilos.webp?v=foundation1', alt: 'Το ναυάγιο και η πυξίδα του ΝΑΥΤΙΛΟΥ 21', position: 'center 76%'},
-    {names: ['στιγμα', 'πρωτευ', 'proteus', 'stigma'], src: 'assets/stigma.webp?v=foundation1', alt: 'Ο θαλάσσιος χάρτης της Πελοποννήσου για το ΤΕΛΕΥΤΑΙΟ ΣΤΙΓΜΑ', position: 'center 42%'},
-    {names: ['biodive', 'bio dive', 'βιονταιβ'], src: 'assets/biodive.webp?v=foundation1', alt: 'Η θαλάσσια χελώνα και οι μέδουσες του BioDive', position: 'center 52%'}
-  ];
-  const artworkFor = (event) => programArtworks.find((artwork) => artwork.names.some((name) => normalize(event.program).includes(name)));
+  const artworkFor = (event) => rules.programFor(event.program);
   const statusLabels = {scheduled: 'Στο πρόγραμμα', changed: 'Τροποποιήθηκε', cancelled: 'Ακυρώθηκε'};
   const events = data.events.map(rules.assign).sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
   let view = 'list';
@@ -39,7 +34,7 @@
     }
   }
   populateFilter('#presenter', [...rules.presenters, ...events.flatMap((event) => event.presenters)]);
-  populateFilter('#program', events.map((event) => event.program));
+  populateFilter('#program', [...rules.programs.map((program) => program.name), ...events.map((event) => event.program)]);
   $('#updated').textContent = `Ενημέρωση προγράμματος: ${formatDate(data.updatedAt, {day: 'numeric', month: 'long', year: 'numeric'})}`;
 
   if (next) {
@@ -114,9 +109,13 @@
   function renderStatistics() {
     const stats = rules.statistics(events, today, currentTime);
     const columns = [...rules.presenters, ...(stats.unassigned ? [rules.pending] : [])];
+    const programLabel = (name) => {
+      const artwork = rules.programFor(name);
+      return `<span class="statistics-program">${artwork ? `<img src="${artwork.src}" alt="" style="object-position:${artwork.position}" width="44" height="50" loading="lazy">` : ''}<span>${escape(name)}</span></span>`;
+    };
     $('#statistics-content').innerHTML = `<div class="stat-cards"><div class="stat-card"><strong>${stats.total}</strong><span>Σύνολο δράσεων που έγιναν</span></div>${rules.presenters.map((name) => `<div class="stat-card"><strong>${stats.byPresenter[name]}</strong><span>${escape(name)}</span></div>`).join('')}</div>
       ${stats.total === 0 ? '<p class="statistics-empty">Δεν έχουν καταγραφεί ακόμη δράσεις με ώρα λήξης που έχει περάσει.</p>' : ''}
-      <div class="statistics-table-wrap" tabindex="0" role="region" aria-label="Στατιστικά ανά παιχνίδι και εισηγητή"><table class="statistics-table"><caption>Ανά παιχνίδι και εισηγητή · όλες οι καταχωρίσεις</caption><thead><tr><th scope="col">Παιχνίδι</th>${columns.map((name) => `<th scope="col">${escape(name)}</th>`).join('')}<th scope="col">Σύνολο</th></tr></thead><tbody>${[...stats.byProgram].map(([program, row]) => `<tr><th scope="row">${escape(program)}</th>${columns.map((name) => `<td>${row.counts[name] || 0}</td>`).join('')}<td>${row.total}</td></tr>`).join('')}</tbody><tfoot><tr><th scope="row">Σύνολο</th>${columns.map((name) => `<td>${name === rules.pending ? stats.unassigned : stats.byPresenter[name]}</td>`).join('')}<td>${stats.total}</td></tr></tfoot></table></div>`;
+      <div class="statistics-table-wrap" tabindex="0" role="region" aria-label="Στατιστικά ανά παιχνίδι και εισηγητή"><table class="statistics-table"><caption>Ανά παιχνίδι και εισηγητή · όλες οι καταχωρίσεις</caption><thead><tr><th scope="col">Παιχνίδι</th>${columns.map((name) => `<th scope="col">${escape(name)}</th>`).join('')}<th scope="col">Σύνολο</th></tr></thead><tbody>${[...stats.byProgram].map(([program, row]) => `<tr><th scope="row">${programLabel(program)}</th>${columns.map((name) => `<td>${row.counts[name] || 0}</td>`).join('')}<td>${row.total}</td></tr>`).join('')}</tbody><tfoot><tr><th scope="row">Σύνολο</th>${columns.map((name) => `<td>${name === rules.pending ? stats.unassigned : stats.byPresenter[name]}</td>`).join('')}<td>${stats.total}</td></tr></tfoot></table></div>`;
   }
 
   // Convert the wall-clock time in Athens to a UTC instant, including daylight saving time.
