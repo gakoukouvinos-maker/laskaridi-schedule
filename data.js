@@ -12,7 +12,6 @@ window.SCHEDULE = {
       building: 'Πραξιτέλους',
       program: 'ΝΑΥΤΙΛΟΣ 21',
       subtitle: 'Το ναυάγιο που δεν υπήρχε',
-      presenters: ['Στουραΐτης Ηλίας', 'Κουκουβίνος Γεώργιος'],
       school: '2 ΓΕΛ ΑΓΙΑΣ ΠΑΡΑΣΚΕΥΗΣ',
       className: 'Γ΄',
       students: 20,

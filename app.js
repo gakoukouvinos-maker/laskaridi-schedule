@@ -1,13 +1,14 @@
 'use strict';
 (() => {
   const data = window.SCHEDULE;
+  const rules = window.ScheduleRules;
   const $ = (selector) => document.querySelector(selector);
   const tz = 'Europe/Athens';
   const dateParts = (date) => new Intl.DateTimeFormat('en-CA', {timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}).formatToParts(date).reduce((result, part) => ({...result, [part.type]: part.value}), {});
   const now = dateParts(new Date());
   const today = `${now.year}-${now.month}-${now.day}`;
   const currentTime = `${now.hour}:${now.minute}`;
-  const isUpcoming = (event) => event.date > today || (event.date === today && event.end > currentTime);
+  const isUpcoming = (event) => rules.isUpcoming(event, today, currentTime);
   const parseDate = (date) => new Date(`${date}T12:00:00Z`);
   const formatDate = (date, options) => new Intl.DateTimeFormat('el-GR', {timeZone: tz, ...options}).format(parseDate(date));
   const upperFirst = (text) => text.charAt(0).toLocaleUpperCase('el-GR') + text.slice(1);
@@ -20,7 +21,7 @@
   ];
   const artworkFor = (event) => programArtworks.find((artwork) => artwork.names.some((name) => normalize(event.program).includes(name)));
   const statusLabels = {scheduled: 'Στο πρόγραμμα', changed: 'Τροποποιήθηκε', cancelled: 'Ακυρώθηκε'};
-  const events = [...data.events].sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
+  const events = data.events.map(rules.assign).sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
   let view = 'list';
   let selectedId = null;
   const next = events.find((event) => isUpcoming(event) && event.status !== 'cancelled');
@@ -37,7 +38,7 @@
       target.append(option);
     }
   }
-  populateFilter('#presenter', events.flatMap((event) => event.presenters));
+  populateFilter('#presenter', [...rules.presenters, ...events.flatMap((event) => event.presenters)]);
   populateFilter('#program', events.map((event) => event.program));
   $('#updated').textContent = `Ενημέρωση προγράμματος: ${formatDate(data.updatedAt, {day: 'numeric', month: 'long', year: 'numeric'})}`;
 
@@ -59,12 +60,12 @@
 
   function eventCard(event) {
     const artwork = artworkFor(event);
-    return `<article class="event-card${artwork ? ' has-artwork' : ''}" aria-label="${escape(event.program)} · ${escape(formatDate(event.date, {day: 'numeric', month: 'long', year: 'numeric'}))}">
+    return `<article class="event-card${artwork ? ' has-artwork' : ''}${event.status === 'cancelled' ? ' is-cancelled' : ''}" aria-label="${escape(event.program)} · ${escape(formatDate(event.date, {day: 'numeric', month: 'long', year: 'numeric'}))} · ${escape(statusLabels[event.status])}">
       <div class="event-date"><span class="event-weekday">${escape(upperFirst(formatDate(event.date, {weekday: 'long'})))}</span><span class="event-number">${event.date.slice(8)}</span><span class="event-month">${escape(formatDate(event.date, {month: 'short'}))} ${event.date.slice(0, 4)}</span></div>
       ${artwork ? `<div class="event-artwork"><img src="${artwork.src}" alt="${escape(artwork.alt)}" style="object-position:${artwork.position}" loading="lazy" decoding="async"></div>` : ''}
       <div class="event-main"><div class="event-title-row"><div><h3>${escape(event.program)}</h3><p class="event-subtitle">${escape(event.subtitle)}</p></div><span class="status ${escape(event.status)}">${escape(statusLabels[event.status])}</span></div>
       <div class="event-meta"><span><span class="meta-symbol" aria-hidden="true">◷</span>${escape(event.start)} – ${escape(event.end)}</span><span><span class="meta-symbol" aria-hidden="true">⌖</span>Κτήριο ${escape(event.building)}</span></div>
-      <dl class="event-details"><div><dt>ΕΙΣΗΓΗΤΕΣ</dt><dd>${event.presenters.map((presenter) => `<span>${escape(presenter)}</span>`).join('')}</dd></div><div><dt>ΣΧΟΛΕΙΟ</dt><dd>${escape(event.school)}</dd></div><div><dt>ΤΑΞΗ / ΜΑΘΗΤΕΣ</dt><dd>${escape(event.className)} · ${escape(event.students)} μαθητές</dd></div></dl>
+      <dl class="event-details"><div><dt>ΕΙΣΗΓΗΤΗΣ</dt><dd>${event.presenters.map((presenter) => `<span>${escape(presenter)}</span>`).join('')}</dd></div><div><dt>ΣΧΟΛΕΙΟ</dt><dd>${escape(event.school)}</dd></div><div><dt>ΤΑΞΗ / ΜΑΘΗΤΕΣ</dt><dd>${escape(event.className)} · ${escape(event.students)} μαθητές</dd></div></dl>
       ${event.note ? `<p class="event-note">${escape(event.note)}</p>` : ''}
       ${event.status !== 'cancelled' ? `<div class="event-footer"><button type="button" class="add-calendar" data-export="${escape(event.id)}" aria-label="Προσθήκη ${escape(event.program)} στις ${escape(event.date)} στο ημερολόγιό μου">＋ Στο ημερολόγιό μου</button></div>` : ''}</div></article>`;
   }
@@ -94,7 +95,7 @@
       const day = dayIndex - firstDay + 1;
       if (day < 1 || day > daysInMonth) { html += '<div class="day blank" aria-hidden="true"></div>'; continue; }
       const date = `${calendarYear}-${String(calendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      html += `<div class="day${date === today ? ' today' : ''}"><span class="day-number">${day}</span>${monthList.filter((event) => event.date === date).map((event) => `<button type="button" class="calendar-event ${escape(event.status)}" data-detail="${escape(event.id)}" aria-label="${escape(event.program)}, ${escape(formatDate(date, {day: 'numeric', month: 'long'}))}, ${escape(event.start)}, ${escape(statusLabels[event.status])}"><strong>${escape(event.start)}</strong><span class="calendar-program">${escape(event.program)}</span></button>`).join('')}</div>`;
+      html += `<div class="day${date === today ? ' today' : ''}"><span class="day-number">${day}</span>${monthList.filter((event) => event.date === date).map((event) => `<button type="button" class="calendar-event ${escape(event.status)}" data-detail="${escape(event.id)}" aria-label="${escape(event.program)}, ${escape(formatDate(date, {day: 'numeric', month: 'long'}))}, ${escape(event.start)}, ${escape(statusLabels[event.status])}"><strong>${escape(event.start)}</strong><span class="calendar-program">${escape(event.program)}</span>${event.status === 'cancelled' ? '<span class="calendar-cancelled">Ακυρώθηκε</span>' : ''}</button>`).join('')}</div>`;
     }
     $('#calendar').innerHTML = html;
     const selected = monthList.find((event) => event.id === selectedId);
@@ -108,6 +109,14 @@
     $('#calendar-view').hidden = view !== 'calendar';
     const count = view === 'calendar' ? monthEvents(filtered).length : filtered.length;
     $('#result-count').textContent = `${count} ${count === 1 ? 'δράση' : 'δράσεις'}${view === 'calendar' ? ' στον μήνα προβολής' : ''}`;
+  }
+
+  function renderStatistics() {
+    const stats = rules.statistics(events, today, currentTime);
+    const columns = [...rules.presenters, ...(stats.unassigned ? [rules.pending] : [])];
+    $('#statistics-content').innerHTML = `<div class="stat-cards"><div class="stat-card"><strong>${stats.total}</strong><span>Σύνολο δράσεων που έγιναν</span></div>${rules.presenters.map((name) => `<div class="stat-card"><strong>${stats.byPresenter[name]}</strong><span>${escape(name)}</span></div>`).join('')}</div>
+      ${stats.total === 0 ? '<p class="statistics-empty">Δεν έχουν καταγραφεί ακόμη δράσεις με ώρα λήξης που έχει περάσει.</p>' : ''}
+      <div class="statistics-table-wrap" tabindex="0" role="region" aria-label="Στατιστικά ανά παιχνίδι και εισηγητή"><table class="statistics-table"><caption>Ανά παιχνίδι και εισηγητή · όλες οι καταχωρίσεις</caption><thead><tr><th scope="col">Παιχνίδι</th>${columns.map((name) => `<th scope="col">${escape(name)}</th>`).join('')}<th scope="col">Σύνολο</th></tr></thead><tbody>${[...stats.byProgram].map(([program, row]) => `<tr><th scope="row">${escape(program)}</th>${columns.map((name) => `<td>${row.counts[name] || 0}</td>`).join('')}<td>${row.total}</td></tr>`).join('')}</tbody><tfoot><tr><th scope="row">Σύνολο</th>${columns.map((name) => `<td>${name === rules.pending ? stats.unassigned : stats.byPresenter[name]}</td>`).join('')}<td>${stats.total}</td></tr></tfoot></table></div>`;
   }
 
   // Convert the wall-clock time in Athens to a UTC instant, including daylight saving time.
@@ -169,4 +178,5 @@
     if (exportButton) { const selected = events.find((item) => item.id === exportButton.dataset.export); if (selected) exportEvent(selected); }
   });
   render();
+  renderStatistics();
 })();

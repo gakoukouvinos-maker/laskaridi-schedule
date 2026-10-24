@@ -50,3 +50,32 @@
  .event-card.has-artwork .event-date,.event-card.has-artwork .event-main{grid-column:auto;grid-row:auto}
  .event-date{background:white;color:var(--navy)}.event-number,.event-weekday,.event-month{color:var(--navy)}
 }
+/* Cancelled actions stay visible, with a neutral grey treatment. */
+.event-card.is-cancelled{background:#f1f2f3;border-color:#d1d3d6;box-shadow:none;color:#555a63}
+.is-cancelled .event-date{background:#dfe1e4;color:#555a63}
+.is-cancelled .event-number,.is-cancelled .event-weekday,.is-cancelled .event-month,.is-cancelled .event-title-row h3,.is-cancelled .event-meta,.is-cancelled .meta-symbol{color:#555a63}
+.is-cancelled .event-artwork{background:#dfe1e4;border-color:#c8cbd0}
+.is-cancelled .event-artwork img{filter:grayscale(1);opacity:.5}
+.is-cancelled .event-note{background:#e4e6e8;color:#555a63}
+.status.cancelled{background:#e1e3e6;color:#454a52;border-color:#b8bdc4;font-weight:650}
+.calendar-event.cancelled{background:#e5e7e9;color:#505660;border-left-color:#8c939c;text-decoration:none}
+.calendar-event.cancelled .calendar-program{text-decoration:line-through}
+.calendar-cancelled{display:block;font-size:9px;font-weight:650}
+/* All-time statistics, independent of schedule filters. */
+.statistics{border-top:1px solid var(--line);padding:30px 0 40px}
+.statistics-note{max-width:790px;color:var(--muted);font-size:12px;line-height:1.8;margin:12px 0 22px}
+.stat-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:22px}
+.stat-card{border:1px solid var(--line);border-radius:12px;background:white;padding:20px 24px;display:flex;flex-direction:column;gap:4px}
+.stat-card:first-child{background:var(--navy);border-color:var(--navy);color:white}
+.stat-card strong{font-size:34px;line-height:1.2;font-weight:600;color:var(--navy)}
+.stat-card:first-child strong{color:#e0c477}.stat-card span{font-size:12px}
+.statistics-empty{font-size:12px;color:var(--muted);margin:0 0 16px}
+.statistics-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:white}
+.statistics-table{border-collapse:collapse;width:100%;font-size:12px;text-align:left}
+.statistics-table caption{text-align:left;padding:15px 20px;color:var(--muted);font-size:11px}
+.statistics-table th,.statistics-table td{padding:13px 20px;border-top:1px solid var(--line)}
+.statistics-table thead{background:#f4efdf}.statistics-table th{font-weight:600}
+.statistics-table td,.statistics-table th:not(:first-child){text-align:right}
+.statistics-table tfoot{background:#faf7ef;font-weight:650}
+@media(max-width:600px){.stat-cards{gap:8px}.stat-card{padding:15px 10px}.stat-card strong{font-size:28px}.stat-card span{font-size:10px}.statistics-table th,.statistics-table td{padding:12px 10px}.statistics-table{font-size:10px}.statistics-table caption{padding:12px 10px}.calendar-cancelled{font-size:7px;overflow-wrap:anywhere}.statistics{padding-top:25px}.statistics-note{font-size:11px}}
+@media print{.statistics{break-inside:avoid;padding-bottom:0}.stat-card{padding:12px}.stat-card:first-child{background:white;color:black}.stat-card strong,.stat-card:first-child strong{color:black}.statistics-table-wrap{overflow:visible}.event-card.is-cancelled{-webkit-print-color-adjust:exact;print-color-adjust:exact}}

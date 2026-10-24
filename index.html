@@ -8,14 +8,15 @@
   <meta name="description" content="Το κοινό πρόγραμμα της ομάδας εκπαιδευτικών δράσεων στο Ίδρυμα Αικατερίνης Λασκαρίδη.">
   <title>Πρόγραμμα ομάδας · Εκπαιδευτικές δράσεις</title>
   <link rel="icon" href="icon.svg?v=foundation1" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=foundation1">
-  <script src="data.js?v=20261024" defer></script>
-  <script src="app.js?v=foundation1" defer></script>
+  <link rel="stylesheet" href="styles.css?v=team2">
+  <script src="data.js?v=20261024-2" defer></script>
+  <script src="schedule-rules.js?v=team2" defer></script>
+  <script src="app.js?v=team2" defer></script>
 </head>
 <body>
   <a class="skip" href="#schedule">Στο πρόγραμμα</a>
   <header class="topbar">
-    <a class="brand" href="./" aria-label="Πρόγραμμα ομάδας, αρχική"><img class="brand-icon" src="assets/foundation-mark.png?v=foundation1" alt="" width="48" height="48"><span>Πρόγραμμα ομάδας<small>ΕΚΠΑΙΔΕΥΤΙΚΕΣ ΔΡΑΣΕΙΣ</small></span></a>
+    <a class="brand" href="./" aria-label="Πρόγραμμα ομάδας, αρχική"><span>Πρόγραμμα ομάδας<small>ΕΚΠΑΙΔΕΥΤΙΚΕΣ ΔΡΑΣΕΙΣ</small></span></a>
     <div class="top-actions"><span class="shared"><i></i> Κοινή προβολή</span><button class="icon-button" id="refresh" type="button" aria-label="Ανανέωση προγράμματος">↻</button></div>
   </header>
   <main>
@@ -35,6 +36,11 @@
       <div id="list-view"></div>
       <div id="calendar-view" hidden><div class="calendar-toolbar"><h3 id="month-label"></h3><div><button id="prev-month" class="month-button" type="button" aria-label="Προηγούμενος μήνας">←</button><button id="current-month" class="text-button" type="button">Τρέχων μήνας</button><button id="next-month" class="month-button" type="button" aria-label="Επόμενος μήνας">→</button></div></div><p class="calendar-hint">Επίλεξε μια δράση για να δεις τις λεπτομέρειες.</p><div class="calendar" id="calendar"></div><div id="day-details" aria-live="polite"></div></div>
       <div class="bottom-tools"><p class="timezone">Όλες οι ώρες είναι Ελλάδας · Europe/Athens</p><button class="text-button" id="print" type="button">Εκτύπωση προγράμματος ↗</button></div>
+    </section>
+    <section class="statistics" aria-labelledby="statistics-title">
+      <div class="section-heading"><div><p class="eyebrow">ΑΠΟΛΟΓΙΣΜΟΣ</p><h2 id="statistics-title">Στατιστικά δράσεων</h2></div></div>
+      <p class="statistics-note">Μετρούν οι καταχωρισμένες δράσεις των οποίων έχει περάσει η ώρα λήξης, χωρίς τις ακυρωμένες. Τα στατιστικά αφορούν όλο το πρόγραμμα, ανεξάρτητα από τα παραπάνω φίλτρα.</p>
+      <div id="statistics-content"></div>
     </section>
   </main>
   <footer><p>Πρόγραμμα ομάδας · Εκπαιδευτικές δράσεις</p><p id="updated"></p></footer>

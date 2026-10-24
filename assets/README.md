@@ -5,7 +5,6 @@
 - `nautilos.webp`: ΝΑΥΤΙΛΟΣ 21, αρχικό `work/poster-assets/background-01.png` από το έργο Ναυτίλου.
 - `stigma.webp`: ΤΕΛΕΥΤΑΙΟ ΣΤΙΓΜΑ / ΠΡΩΤΕΥΣ, αρχικό `output/promo/posters-v3/backgrounds/background_01.png` από το έργο Στίγματος.
 - `biodive.webp`: BioDive, αρχικό `output/pdf/BioDive_Posters/assets/illustration-01.png`.
-- `foundation-mark.png`: το υπάρχον σήμα του Ιδρύματος από τα υλικά αφισών.
 
 Η αντιστοίχιση γίνεται στο `programArtworks` του `app.js` με βάση το όνομα του παιχνιδιού. Νέα δράση γνωστού παιχνιδιού αποκτά το αντίστοιχο εικαστικό χωρίς πρόσθετη καταχώριση. Άγνωστο παιχνίδι εμφανίζεται κανονικά χωρίς εικόνα.
 
