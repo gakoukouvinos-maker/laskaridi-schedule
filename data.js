@@ -57,6 +57,7 @@ window.SCHEDULE = {
       school: '39ο ΓΥΜΝΑΣΙΟ ΑΘΗΝΩΝ',
       className: 'Β΄ Γυμνασίου',
       students: 25,
+      fridayPresenter: 'Κωνσταντίνος',
       status: 'scheduled',
       note: ''
     }
